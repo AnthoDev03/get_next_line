@@ -6,93 +6,65 @@
 /*   By: anthrodr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 10:44:39 by anthrodr          #+#    #+#             */
-/*   Updated: 2023/04/22 16:45:39 by anthrodr         ###   ########.fr       */
+/*   Updated: 2023/04/24 10:21:43 by anthrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *str)
+{
+	size_t	c;
+
+	c = 0;
+	if (!str)
+		return (0);
+	while (str[c] != '\0')
+		c++;
+	return (c);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
+	size_t	c;
+	char	*str;
 
-	i = 0;
-	while (s[i])
+	if (!s1)
 	{
-		i++;
+		s1 = (char *)malloc(1 * sizeof(char));
+		s1[0] = '\0';
 	}
-	return (i);
-}
-
-char	*ft_strchr(const char *string, int character)
-{
-	int		i;
-	char	ch;
-
-	i = 0;
-	ch = character;
-	while (string[i] != ch)
-	{
-		if (string[i] == '\0')
-			return (NULL);
-		i++;
-	}
-	return ((char *)string + i);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*s3;
-	size_t	len_s1;
-	size_t	len_s2;
-
-	if (!s1 && !s2)
+	if (!s1 || !s2)
 		return (NULL);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	s3 = malloc((len_s1 + len_s2 + 1) * sizeof(char));
-	if (!s3)
+	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (str == NULL)
 		return (NULL);
-	ft_strlcpy(s3, s1, len_s1 + 1);
-	ft_strlcat(s3, s2, len_s1 + len_s2 + 1);
-	return (s3);
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	dst_size;
-	size_t	src_size;
-	size_t	i;
-
-	src_size = ft_strlen(src);
-	dst_size = ft_strlen(dst);
-	if (size == 0 || dst_size >= size)
-		return (src_size + size);
-	i = 0;
-	while (src[i] && (i + dst_size + 1 < size))
-	{
-		dst[dst_size + i] = src[i];
-		i++;
-	}
-	dst[dst_size + i] = '\0';
-	return (dst_size + src_size);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	srclen;
-	size_t	i;
-
-	srclen = ft_strlen(src);
-	if (dstsize == 0)
-	{
-		return (srclen);
-	}
-	i = 0;
-	while (src[i] != '\0' && i < dstsize - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (srclen);
+	i = -1;
+	c = 0;
+	if (s1)
+		while (s1[++i] != '\0')
+			str[i] = s1[i];
+	while (s2[c] != '\0')
+		str[i++] = s2[c++];
+	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	free(s1);
+	return (str);
 }
