@@ -6,7 +6,7 @@
 /*   By: anthrodr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 10:44:23 by anthrodr          #+#    #+#             */
-/*   Updated: 2023/04/25 10:34:26 by anthrodr         ###   ########.fr       */
+/*   Updated: 2023/04/25 12:26:51 by anthrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*read_file(int fd, char *buffer)
 		if (read_bytes == -1)
 		{
 			free(buff);
+			free(buffer);
 			return (NULL);
 		}
 		buff[read_bytes] = '\0';
